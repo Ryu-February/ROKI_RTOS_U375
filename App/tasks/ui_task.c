@@ -5,9 +5,25 @@
  *      Author: RCY
  */
 
-#ifndef TASKS_UI_TASK_C_
-#define TASKS_UI_TASK_C_
+#include "ui_task.h"
+#include "cmsis_os2.h"
+
+#include "ui_feedback.h"
 
 
 
-#endif /* TASKS_UI_TASK_C_ */
+
+void ui_task(void *argument)
+{
+	(void)argument;
+
+	ui_feedback_init();
+
+	for (;;)
+	{
+		ui_feedback_set(UI_STATE_BOOT);
+
+		osDelay(500);
+//		osDelay(500);
+	}
+}
