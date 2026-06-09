@@ -8,6 +8,18 @@
 #ifndef APP_APP_H_
 #define APP_APP_H_
 
+
+#include "cmsis_os2.h"
+
+typedef struct
+{
+	osThreadFunc_t func;
+	const char *name;
+	uint32_t stack_size;
+	osPriority_t priority;
+}task_init_t;
+
+
 void app_init(void);
 
 #endif /* APP_APP_H_ */

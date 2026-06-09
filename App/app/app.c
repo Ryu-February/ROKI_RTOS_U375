@@ -6,28 +6,19 @@
  */
 
 #include "app.h"
-#include "cmsis_os2.h"
+
 #include "ui_task.h"
 #include "input_task.h"
 
 #include "msg_types.h"
 
-
-
-osThreadAttr_t ui_attr =
+static const task_init_t s_task_table[] =
 {
-	.name = "ui_task",
-	.stack_size = 128 * 4,
-	.priority = osPriorityLow,
+		{ ui_task	, 	"ui_task", 		128 * 4, 	osPriorityLow 		},
+		{ input_task, 	"input_task", 	128 * 4, 	osPriorityNormal 	}
 };
 
-osThreadAttr_t input_attr =
-{
-	.name = "input_task",
-	.stack_size = 128 * 4,
-	.priority = osPriorityNormal,
-};
-
+#define NUM_STACKS (sizeof(s_task_table) / sizeof(s_task_table[0]))
 
 osMessageQueueId_t ui_queue;
 
@@ -37,8 +28,17 @@ void app_init(void)
 	ui_queue = osMessageQueueNew(8, sizeof(ui_msg_t), NULL);
 
 	/* 2) 태스크 생성 */
-	osThreadNew(ui_task,    NULL, &ui_attr);
-	osThreadNew(input_task, NULL, &input_attr);
+	for (uint32_t i = 0; i < NUM_STACKS; i++)
+	{
+		osThreadAttr_t attr =
+		{
+				.name = s_task_table[i].name,
+				.stack_size = s_task_table[i].stack_size,
+				.priority = s_task_table[i].priority
+		};
+
+		osThreadNew(s_task_table[i].func, NULL, &attr);
+	}
 }
 
 
