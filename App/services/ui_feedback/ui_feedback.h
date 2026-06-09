@@ -10,6 +10,7 @@
 
 
 #include "mode_sw.h"
+#include "btn.h"
 
 typedef enum
 {
@@ -25,5 +26,8 @@ void ui_feedback_init(void);
 void ui_feedback_set(ui_state_t state);
 
 void ui_feedback_apply_mode(mode_sw_t mode);
+void ui_feedback_btn_press_start(btn_id_t btn);
+
+void ui_feedback_btn_press_timeout(void);
 
 #endif /* SERVICES_UI_FEEDBACK_UI_FEEDBACK_H_ */

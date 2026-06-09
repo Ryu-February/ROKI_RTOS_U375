@@ -32,13 +32,21 @@ void input_task(void *argument)
     for (;;)
     {
         mode_sw_update_1ms();
+        btn_update_1ms();
 
-        mode_sw_t m;
+        mode_sw_t m = MODE_COUNT;
         if (mode_sw_changed(&m))
         {
-            ui_msg_t msg = { .type = UI_EVT_MODE_CHANGED, .mode = m };
+            ui_msg_t msg1 = { .type = UI_EVT_MODE_CHANGED, .mode = m };
             /* 2) 전달 보장: 실패로 edge 유실 방지 (짧은 대기/블로킹) */
-            osMessageQueuePut(ui_queue, &msg, 0, osWaitForever);
+            osMessageQueuePut(ui_queue, &msg1, 0, osWaitForever);
+        }
+
+        btn_id_t b = BTN_COUNT;
+        if (btn_pop_any_press(&b))
+        {
+        	ui_msg_t msg2 = { .type = UI_EVT_BTN_PRESSED, .btn = b };
+        	osMessageQueuePut(ui_queue, &msg2, 0, osWaitForever);
         }
 
         tick += 1;

@@ -10,6 +10,7 @@
 
 #include "def.h"
 #include "rgb.h"
+#include "buzzer.h"
 
 volatile uint32_t timer6_ms;
 
@@ -38,6 +39,7 @@ void bsp_isr_tim4_callback(void)	//30us timer
 void bsp_isr_tim6_callback(void)	//1ms_timer
 {
 	timer6_ms++;
+	buzzer_update_1ms();
 }
 
 void bsp_isr_tim7_callback(void)	//60us timer

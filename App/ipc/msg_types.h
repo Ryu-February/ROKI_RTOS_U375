@@ -10,26 +10,22 @@
 
 #include "cmsis_os2.h"
 #include "mode_sw.h"
+#include "btn.h"
 
 typedef enum
 {
 	UI_EVT_MODE_CHANGED,
-	UI_EVT_RUBBER_PRESSED,
-	UI_EVT_MODE_NONE,
+	UI_EVT_BTN_PRESSED,
+	UI_EVT_TIMEOUT_OFF,
+	UI_EVT_NOT_HAPPEND,
 }ui_evt_type_t;
 
 
 typedef struct
 {
 	ui_evt_type_t 	type;
-	mode_sw_t 	mode;
-	uint8_t 	rubber_id;
-
-//	union
-//	{
-//		mode_sw_t 	mode;
-//		uint8_t 	rubber_id;
-//	};
+	mode_sw_t 		mode;
+	btn_id_t 		btn;
 }ui_msg_t;
 
 extern osMessageQueueId_t ui_queue;
