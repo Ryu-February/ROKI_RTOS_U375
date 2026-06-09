@@ -201,7 +201,7 @@ void TIM7_IRQHandler(void)
   /* USER CODE END TIM7_IRQn 0 */
   HAL_TIM_IRQHandler(&htim7);
   /* USER CODE BEGIN TIM7_IRQn 1 */
-
+  bsp_isr_tim7_callback();
   /* USER CODE END TIM7_IRQn 1 */
 }
 
@@ -215,7 +215,7 @@ void TIM17_IRQHandler(void)
   /* USER CODE END TIM17_IRQn 0 */
   HAL_TIM_IRQHandler(&htim17);
   /* USER CODE BEGIN TIM17_IRQn 1 */
-  bsp_isr_tim7_callback();
+
   /* USER CODE END TIM17_IRQn 1 */
 }
 

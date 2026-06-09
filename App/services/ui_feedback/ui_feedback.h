@@ -9,7 +9,7 @@
 #define SERVICES_UI_FEEDBACK_UI_FEEDBACK_H_
 
 
-
+#include "mode_sw.h"
 
 typedef enum
 {
@@ -23,5 +23,7 @@ typedef enum
 
 void ui_feedback_init(void);
 void ui_feedback_set(ui_state_t state);
+
+void ui_feedback_apply_mode(mode_sw_t mode);
 
 #endif /* SERVICES_UI_FEEDBACK_UI_FEEDBACK_H_ */

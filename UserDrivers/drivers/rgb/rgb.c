@@ -10,6 +10,7 @@
 #include "led.h"
 
 #include "bsp_isr.h"
+#include "board.h"
 
 
 const rgb_led_t led_map[COLOR_COUNT] =
@@ -34,15 +35,6 @@ const rgb_led_t led_map[COLOR_COUNT] =
  * EYES    : PC10(B), PC11(R), PC12(G)
  */
 
-#define LED_PORT			GPIOC
-
-#define V_B_PIN             GPIO_PIN_0		//shape - v(top pcb)
-#define V_R_PIN             GPIO_PIN_1
-#define V_G_PIN             GPIO_PIN_2
-
-#define E_B_PIN             GPIO_PIN_10		//shape - eyes
-#define E_R_PIN             GPIO_PIN_11
-#define E_G_PIN             GPIO_PIN_12
 
 
 /* 채널 인덱스 */
@@ -58,7 +50,7 @@ static volatile uint8_t pwm_counter = 0;
 /* Active-Low 보정된 핀 쓰기 */
 static inline void write_pin_active_low(uint16_t pin, uint8_t on)
 {
-    HAL_GPIO_WritePin(LED_PORT, pin, on ? GPIO_PIN_RESET : GPIO_PIN_SET);
+    HAL_GPIO_WritePin(RGB_PORT, pin, on ? GPIO_PIN_RESET : GPIO_PIN_SET);
 }
 
 
@@ -67,9 +59,9 @@ static inline void apply_zone(rgb_zone_t zone, uint8_t r_on, uint8_t g_on, uint8
 {
     if (zone == RGB_ZONE_V_SHAPE)
     {
-        write_pin_active_low(V_R_PIN, r_on);
-        write_pin_active_low(V_G_PIN, g_on);
-         write_pin_active_low(V_B_PIN, b_on);
+        write_pin_active_low(RGB_V_R_PIN, r_on);
+        write_pin_active_low(RGB_V_G_PIN, g_on);
+         write_pin_active_low(RGB_V_B_PIN, b_on);
     }
 //    else	/* RGB_ZONE_EYES */
 //    {
@@ -83,8 +75,8 @@ static inline void apply_zone(rgb_zone_t zone, uint8_t r_on, uint8_t g_on, uint8
 
 void rgb_init(void)
 {
-	HAL_GPIO_WritePin(LED_PORT,
-	                      V_R_PIN | V_G_PIN | V_B_PIN, //|
+	HAL_GPIO_WritePin(RGB_PORT,
+						RGB_V_R_PIN | RGB_V_G_PIN | RGB_V_B_PIN, //|
 //	                      E_R_PIN | E_G_PIN | E_B_PIN,
 	                      GPIO_PIN_SET);
 
