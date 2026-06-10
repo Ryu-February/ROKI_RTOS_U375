@@ -75,6 +75,20 @@ void ui_feedback_apply_mode(mode_sw_t mode)
 	(mode == MODE_BUTTON) ? led_off(LED_W_CONTROL) : led_on(LED_W_CONTROL);
 }
 
+void ui_feedback_indicate_battery(uint8_t low)
+{
+	if (low)
+	{
+		led_on(LED_POWER_STAT_O);
+		led_off(LED_POWER_STAT_W);
+	}
+	else
+	{
+		led_on(LED_POWER_STAT_W);
+		led_off(LED_POWER_STAT_O);
+	}
+}
+
 void ui_feedback_btn_press_start(btn_id_t btn)
 {
 	// 1. LED 피드백

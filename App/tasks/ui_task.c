@@ -42,6 +42,7 @@ void ui_task(void *argument)
 	{
 		ui_msg_t msg;
 
+
 		if (osMessageQueueGet(ui_queue, &msg, NULL, osWaitForever) != osOK)
 		{
 			continue;
@@ -58,6 +59,9 @@ void ui_task(void *argument)
 				// ② 기존에 돌던 타이머가 있다면 멈추고, 새로 1초(1000ms) 시작
 				osTimerStop(rgb_off_timer_id);
 				osTimerStart(rgb_off_timer_id, 500);
+				break;
+			case UI_EVT_BAT_INDICATE:
+				ui_feedback_indicate_battery(msg.bat_low);
 				break;
 			case UI_EVT_TIMEOUT_OFF:
 				ui_feedback_btn_press_timeout();
